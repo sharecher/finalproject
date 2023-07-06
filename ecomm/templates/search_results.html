@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Main layout-->
+<main>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #3a893d">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+
+                <!-- Navbar brand -->
+                <a class="navbar-brand" href="#">Categories:</a>
+
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent2"
+                        aria-controls="navbarSupportedContent2"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                      <!-- Link -->
+                      <li class="nav-item {% if not request.GET.category %}active{% endif %}">
+                        <a class="nav-link text-white" href="{% url 'toko:category' 'All' %}">All</a>
+                    </li>
+                    <li class="nav-item {% if request.GET.category == 'Buah-buahan' %}active{% endif %}">
+                        <a class="nav-link text-white" href="{% url 'toko:category' 'Buah-buahan' %}">Buah-buahan</a>
+                    </li>
+                    <li class="nav-item {% if request.GET.category == 'Sayur-sayuran' %}active{% endif %}">
+                        <a class="nav-link text-white" href="{% url 'toko:category' 'Sayur-sayuran' %}">Sayur-sayuran</a>
+                    </li>
+                    <li class="nav-item {% if request.GET.category == 'Daging-Ayam' %}active{% endif %}">
+                        <a class="nav-link text-white" href="{% url 'toko:category' 'Daging-Ayam' %}">Daging & Ayam</a>
+                    </li>
+                    <li class="nav-item {% if request.GET.category == 'Bumbu-Dapur' %}active{% endif %}">
+                        <a class="nav-link text-white" href="{% url 'toko:category' 'Bumbu-Dapur' %}">Bumbu Dapur</a>
+                    </li>
+                    </ul>
+
+                    <!-- Search -->
+                    <form action="{% url 'toko:search' %}" method="GET" class="w-auto py-1" style="max-width: 12rem">
+                      <input id="search-input" type="search" class="form-control rounded-0" name="q" placeholder="Search" aria-label="Search">
+                  </form>
+
+                </div>
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+    <h2>Search Results for "{{ query }}"</h2>
+
+    {% if produk_items %}
+        <div class="row">
+            {% for produk_item in produk_items %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                             data-mdb-ripple-color="light">
+                            <img src="{{ produk_item.gambar.url }}" class="w-100" />
+                            <a href="{{ produk_item.get_absolute_url }}">
+                                <div class="mask">
+                                    <div class="d-flex justify-content-start align-items-end h-100">
+                                        <h5><span class="badge bg-{{ produk_item.get_label_display }} ms-2">{{ produk_item.label }}</span></h5>
+                                    </div>
+                                </div>
+                                <div class="hover-overlay">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{ produk_item.get_absolute_url }}" class="text-reset">
+                                <h5 class="card-title mb-2">{{ produk_item.nama_produk }}</h5>
+                            </a>
+                            <a href="" class="text-reset">
+                                <p>{{ produk_item.get_kategori_display }}</p>
+                            </a>
+                            <h6 class="mb-3 price">
+                                ${% if produk_item.harga_diskon %}
+                                    {{ produk_item.harga_diskon }}
+                                {% else %}
+                                    {{ produk_item.harga }}
+                                {% endif %}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</main>
+{% endblock content %}

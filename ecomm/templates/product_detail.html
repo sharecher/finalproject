@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+
+<!--Main layout-->
+<main class="mt-5 pt-4">
+    <div class="container mt-5">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+                <img src="{{ object.gambar.url }}" class="img-fluid" alt="" />
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+                <!--Content-->
+                <div class="p-4">
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge bg-dark me-1">{{ object.get_kategori_display }}</span>
+                        </a>
+                        {% if object.label == 'NEW' %}
+                        <a href="">
+                            <span class="badge bg-{{ object.get_label_display }} me-1">New</span>
+                        </a>
+                        {% elif object.label == 'SALE' %}
+                        <a href="">
+                            <span class="badge bg-{{ object.get_label_display }} me-1">Sale</span>
+                        </a>
+                        {% else %}
+                        <a href="">
+                            <span class="badge bg-{{ object.get_label_display }} me-1">Bestseller</span>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <p class="lead">
+                        {% if object.harga_diskon %}
+                        <span class="me-1">
+                            <del>${{ object.harga }}</del>
+                        </span>
+                        <span>${{ object.harga_diskon }}</span>
+                        {% else %}
+                        <span>${{ object.harga }}</span>
+                        {% endif %}
+                    </p>
+
+                    <strong><p style="font-size: 20px;">Deskripsi</p></strong>
+
+                    <p>{{ object.deskripsi }}</p>
+                    <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary ms-1">
+                        Tambah ke keranjang
+                        <i class="fas fa-shopping-cart ms-1"></i>
+                    </a>
+                    <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger ms-1" >
+                        Kurangi keranjang
+                        <i class="fas fa-shopping-cart ms-1"></i>
+                    </a>
+                    <p>
+                        
+
+                </div>
+                <!--Reviews-->
+                <div class="'col-md-6">
+                    <h4 class="'my-3">Rating : 
+                        {% if average_rating is not None %}
+                        {{ average_rating }}
+                        {% else %}
+                        - {% endif %}
+                        /5 <i class="fa fa-star text-warning"></i></h4>
+                    <div class="card">
+                        <div class="card-body" style="max-height: 400px; overflow: auto;">
+                        <!--Detail-->
+                        <blockquote class ="blockquote text-right">
+                            <h4 class="'my-3">Komentar: </h4>
+                            <small>{% for comment in comments %}
+                                <li>{{ comment.comment }} - {{ comment.user.username }}</li>
+                            {% empty %}
+                            <p>No comments yet.</p>
+                            {% endfor %}
+                            </small>
+                        </blockquote>
+                    </div>
+                    </div>
+                </div>
+                <!--Content-->
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+
+        <hr />
+
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center">
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+                <h4 class="my-4 h4">Informasi Tambahan</h4>
+
+                <p>PaDi (Pasar Digital) merupakan sebuah platform online yang memungkinkan anda untuk belanja kebutuhan dapur dengan mudah dan praktis. PaDi menjamin kualitas dan kesegaran produk tetap terjaga hingga sampai di tangan anda.</p>
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+<div class="col-lg-4 col-md-12 mb-4">
+    <img src="{% static 'img/petani_lokal.png' %}" class="img-fluid" alt="" style="max-width: 100%; height: auto;" />
+    <div class="text-center">
+        <p>PaDi bekerjasama dengan petani lokal agar kualitas dan kesegaran produk lebih terjamin.</p>
+    </div>
+</div>
+<!--Grid column-->
+
+<!--Grid column-->
+<div class="col-lg-4 col-md-12 mb-4">
+    <img src="{% static 'img/delivery_truck.png' %}" class="img-fluid" alt="" style="max-width: 100%; height: auto;" />
+    <div class="text-center">
+        <p>± 2 jam proses pemesanan dan produk akan segera dikirim langsung ke rumah anda.</p>
+    </div>
+</div>
+<!--Grid column-->
+
+<!--Grid column-->
+<div class="col-lg-4 col-md-12 mb-4">
+    <img src="{% static 'img/jam_delivery.png' %}" class="img-fluid" alt="" style="max-width: 100%; height: auto;" />
+    <div class="text-center">
+        <p>PaDi siap melayani anda selama 24 jam setiap harinya.</p>
+    </div>
+</div>
+<!--Grid column-->
+        </div>
+        <!--Grid row-->
+    </div>
+</main>
+<!--Main layout-->
+{% endblock content%}
